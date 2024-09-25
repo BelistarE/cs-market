@@ -1,0 +1,15 @@
+.header {
+  padding-left: 5%;
+  padding-right: 5%;
+  display: flex;
+  flex-direction: column;
+  background-color: #242728;
+}
+.top {
+  border-bottom: 2px solid rgb(56, 56, 56);
+}
+.links {
+  display: flex;
+  justify-content: space-evenly;
+  list-style-type: none;
+}
