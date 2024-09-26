@@ -34,21 +34,29 @@
   padding: 0px;
 }
 .subcategories li {
-  padding: 0.5rem;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   font-size: small;
   font-weight: 600;
   letter-spacing: 2px;
   user-select: none;
   color: white;
 }
+
+.subcategories li:hover {
+  background-color: #3a3e40;
+  color: orangered;
+}
 .links {
   position: relative;
 }
 
 .subcategories ul {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   position: absolute;
   background-color: #2c2f30;
-  padding: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }

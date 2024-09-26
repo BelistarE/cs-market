@@ -20,3 +20,23 @@
   max-width: 100%;
   height: auto;
 }
+.uppermarket {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  height: 2rem;
+}
+.arrow {
+  height: 0.6rem;
+  width: 1rem;
+  fill: white;
+}
+.left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.subcat {
+  color: rgba(255, 255, 255, 0.5);
+}
