@@ -26,3 +26,29 @@
   transition: color 0.3s ease;
   text-transform: uppercase;
 }
+.subcategories ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 0px;
+}
+.subcategories li {
+  padding: 0.5rem;
+  font-size: small;
+  font-weight: 600;
+  letter-spacing: 2px;
+  user-select: none;
+  color: white;
+}
+.links {
+  position: relative;
+}
+
+.subcategories ul {
+  position: absolute;
+  background-color: #2c2f30;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
