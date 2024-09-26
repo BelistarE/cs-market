@@ -17,6 +17,7 @@
   padding: 0.3rem;
   font-weight: 600;
   letter-spacing: 2px;
+  user-select: none;
 }
 .link:hover {
   color: orangered;

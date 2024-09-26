@@ -1,8 +1,7 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  font-size: medium;
 }
 .grid img {
   width: 100%;
@@ -13,7 +12,10 @@
   max-width: 100%;
   overflow: hidden;
 }
-
+.grid > * {
+  border: 2px solid #1d2021;
+  padding: 1rem;
+}
 .grid img {
   max-width: 100%;
   height: auto;

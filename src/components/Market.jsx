@@ -59,7 +59,7 @@ function Market() {
                 alt={itemName}
                 className={styles.itemImage}
               />
-              <h3>{itemName}</h3>
+              <p>{itemName}</p>
             </div>
           );
         })}
