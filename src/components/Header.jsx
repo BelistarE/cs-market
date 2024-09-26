@@ -3,14 +3,14 @@ import styles from "./css_modules/header.module.css";
 
 function Header() {
   const categories = [
-    "KNIFE",
-    "GLOVES",
-    "PISTOLS",
-    "RIFLES",
-    "SMG",
-    "HEAVY",
-    "AGENT",
-    "STICKERS",
+    "knives",
+    "gloves",
+    "pistols",
+    "rifles",
+    "smgs",
+    "heavy",
+    "agents",
+    "stickers",
   ];
 
   return (
@@ -27,7 +27,7 @@ function Header() {
         <nav>
           <ul className={styles.links}>
             {categories.map((category) => (
-              <li key={category}>
+              <li key={category} className={styles.link}>
                 <Link to={`/category/${category}`}>{category}</Link>
               </li>
             ))}
