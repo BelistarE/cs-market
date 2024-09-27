@@ -68,6 +68,11 @@
 .gridItem{
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+.gridItem:hover{
+  background-color: #292f30;
+  transition: background-color 0.2s ease;
 }
 
 @keyframes fade {

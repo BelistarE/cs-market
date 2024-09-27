@@ -1,4 +1,6 @@
 .common {
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box;
 }

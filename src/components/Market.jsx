@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import styles from "./css_modules/market.module.css";
 
 function Market() {
@@ -9,6 +10,8 @@ function Market() {
   const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState({});
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -84,6 +87,10 @@ function Market() {
   const handleImageLoad = (id) => {
     setImageLoading((prev) => ({ ...prev, [id]: false }));
   };
+  const handleItemClick = (item) => {
+    navigate(`/category/${item.category.name.toLowerCase()}/${item.weapon.name.toLowerCase().replace(/\s/g, "")}/${item.pattern.id}`, { state: { item, prices: prices[item.name] } });
+  };
+  
 
   return (
     <div>
@@ -122,7 +129,7 @@ function Market() {
           const itemName = item.name;
 
             return (
-              <div key={item.id} className={`${styles.gridItem}`}>
+              <div key={item.id} className={`${styles.gridItem}`}  onClick={() => handleItemClick(item)}>
                 {imageLoading[item.id] !== false && (
                   <div className={styles.placeholder}></div>
                 )}

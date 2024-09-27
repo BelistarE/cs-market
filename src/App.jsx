@@ -9,6 +9,7 @@ import Home from "./components/Home";
 import Market from "./components/Market";
 import Agents from "./components/Agents";
 import Stickers from "./components/Stickers";
+import ItemPage from "./components/ItemPage";
 import "./App.css";
 
 function Category() {
@@ -31,6 +32,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/category/:categoryName" element={<Category />} />
+            <Route path="/category/:itemType/:weaponType/:skinName" element={<ItemPage />} />
           </Routes>
         </div>
       </Router>

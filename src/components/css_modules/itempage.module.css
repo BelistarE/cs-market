@@ -1,0 +1,9 @@
+.itemPage{
+    display: flex;
+    justify-content: space-around;
+    background-color: #2b2f30;
+    height: 100vh;
+}
+.pattern{
+    font-weight: bold;
+}

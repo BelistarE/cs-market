@@ -1,10 +1,22 @@
-.header {
-  padding-left: 5%;
-  padding-right: 5%;
+.headercontainer {
   display: flex;
   flex-direction: column;
-  background-color: #242728;
+  
+  position: fixed;
+  transform: translateZ(0);
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  margin: 0 auto;
+  padding: 0 40px;
 }
+.header{
+  background-color: #242728;
+  padding: 0 25px;
+}
+
 .top {
   border-bottom: 2px solid rgb(56, 56, 56);
   padding-top: 1rem;
@@ -22,10 +34,13 @@
 }
 .link:hover {
   color: orangered;
+  fill: orangered;
 }
 .link {
   transition: color 0.3s ease;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
 }
 .subcategories ul {
   display: flex;
@@ -41,6 +56,7 @@
   font-size: small;
   font-weight: 600;
   letter-spacing: 2px;
+  -webkit-user-select: none;
   user-select: none;
   color: white;
 }
@@ -51,6 +67,10 @@
 }
 .links {
   position: relative;
+  padding: 15px;
+}
+.navbar{
+  padding: 0 35px;
 }
 
 .subcategories ul {
@@ -61,3 +81,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+.arrow{
+  padding-left: 10px;
+}
+
