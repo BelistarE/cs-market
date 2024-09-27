@@ -116,43 +116,50 @@ function Market() {
         <p>{filteredItems.length} items</p>
       </div>
 
-      <div className={styles.grid}>
+      <div className={`${styles.grid}`}>
         {filteredItems.map((item) => {
           // Normalize the itemName from the items API by removing wear-related text
           const itemName = item.name;
 
-          return (
-            <div key={item.id} className={styles.gridItem}>
-              {imageLoading[item.id] !== false && (
-                <div className={styles.placeholder}></div>
-              )}
+            return (
+              <div key={item.id} className={`${styles.gridItem}`}>
+                {imageLoading[item.id] !== false && (
+                  <div className={styles.placeholder}></div>
+                )}
 
-              <img
-                src={item.image}
-                alt={itemName}
-                className={styles.itemImage}
-                onLoad={() => handleImageLoad(item.id)}
-              />
+                <img
+                  src={item.image}
+                  alt={itemName}
+                  className={styles.itemImage}
+                  onLoad={() => handleImageLoad(item.id)}
+                />
 
-              <div className={styles.prices}>
+                <div className={styles.prices}>
+                  <p>
+                    $
+                    {prices[itemName]?.min
+                      ? prices[itemName].min >= 1000
+                        ? prices[itemName].min.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        : prices[itemName].min.toFixed(2)
+                      : "N/A"}
+                    {" - "}
+                    $
+                    {prices[itemName]?.max
+                      ? prices[itemName].max >= 1000
+                        ? prices[itemName].max.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        : prices[itemName].max.toFixed(2)
+                      : "N/A"}
+                  </p>
+                </div>
+
+                <p style={{ color: item.rarity.color }}>
+                  {itemName.split(" | ")[0]}
+                </p>
                 <p>
-                  $
-                  {prices[itemName]?.min
-                    ? prices[itemName].min % 1 === 0
-                      ? prices[itemName].min.toFixed(0)
-                      : prices[itemName].min.toFixed(2)
-                    : "N/A"}
-                  {" - "}$
-                  {prices[itemName]?.max
-                    ? prices[itemName].max % 1 === 0
-                      ? prices[itemName].max.toFixed(0)
-                      : prices[itemName].max.toFixed(2)
-                    : "N/A"}
+                  {itemName.split(" | ")[1]}
                 </p>
               </div>
-              <p>{itemName}</p>
-            </div>
-          );
+            );
         })}
       </div>
     </div>
