@@ -1,7 +1,7 @@
 .headercontainer {
   display: flex;
   flex-direction: column;
-  
+
   position: fixed;
   transform: translateZ(0);
   margin: 0 auto;
@@ -11,10 +11,12 @@
   top: 0;
   margin: 0 auto;
   padding: 0 40px;
+  z-index: 10;
 }
-.header{
+.header {
   background-color: #242728;
   padding: 0 25px;
+  border-bottom: 2px solid #1d2021;
 }
 
 .top {
@@ -69,7 +71,7 @@
   position: relative;
   padding: 15px;
 }
-.navbar{
+.navbar {
   padding: 0 35px;
 }
 
@@ -81,7 +83,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
-.arrow{
+.arrow {
   padding-left: 10px;
 }
-
