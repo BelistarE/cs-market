@@ -1,17 +1,16 @@
 .carouselContainer {
   width: 100%;
-  margin: 0 auto;
   position: relative;
   user-select: none;
+  height: calc(100vh - 138px);
 }
 
 .carouselImage {
   width: 100%;
-  height: 500px;
   object-fit: cover;
   border: none;
-  outline: none; /* Remove default focus outline */
-  display: block;
+  height: calc(100vh - 180px);
+  outline: none;
   user-select: none;
 }
 .carouselImage:focus {
@@ -42,4 +41,40 @@
 
 .nextArrow {
   right: 10px;
+}
+.home {
+  /*height: calc(100vh - 138px);*/
+  display: flex;
+  flex-direction: column;
+}
+.footerLinks {
+  display: flex;
+}
+.footerLinks a {
+  padding: 0.2rem;
+  cursor: pointer;
+}
+.footerLinks a:hover {
+  color: rgba(255, 255, 255, 0.466);
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem;
+  padding: 2rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  border-top: 2px solid #323738;
+}
+.footerleft,
+.footerright {
+  display: flex;
+  flex-direction: column;
+  padding-right: 2rem;
+}
+.footercontact p {
+  padding: 0.5rem;
+}
+.footercontact {
+  width: 250px;
 }
