@@ -5,7 +5,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import one from "../assets/slideshow/1carousel.jpg";
 import two from "../assets/slideshow/2carousel.webp";
 import seven from "../assets/slideshow/7carousel.webp";
-import styles from "./css_modules/home.module.css"; // Assuming this is where your CSS is
+import styles from "./css_modules/home.module.css"; 
 
 const images = [one, two, seven];
 

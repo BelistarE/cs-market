@@ -61,6 +61,7 @@
   -webkit-user-select: none;
   user-select: none;
   color: white;
+  white-space: nowrap;
 }
 
 .subcategories li:hover {
@@ -83,6 +84,21 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+.subcategories {
+  top: 100%;
+  left: 0;
+  transform: translateY(10px);
+}
 .arrow {
   padding-left: 10px;
+}
+.link:hover .link,
+.link:hover .arrow {
+  color: orangered;
+  fill: orangered;
+}
+.link:hover svg {
+  transform: rotate(180deg);
+  padding-right: 10px;
+  padding-left: 0px;
 }

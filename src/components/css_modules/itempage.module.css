@@ -1,8 +1,8 @@
 .itemPage {
   display: flex;
   background-color: #2b2f30;
-  height: 100vh;
   box-sizing: border-box;
+  margin-bottom: 2rem;
 }
 .pattern {
   font-weight: bold;
@@ -13,12 +13,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
 }
 .right {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  width: 100%;
+  padding: 2rem;
+  flex: 1;
 }
 .nav {
   display: flex;
@@ -69,15 +70,15 @@
 .buy:hover {
   background-color: #477f9b;
 }
-.wears li {
+.wears div {
   padding: 1rem;
   border-bottom: 1px solid #7d8a8e;
   cursor: pointer;
 }
-.wears li:hover {
+.wears div:hover {
   background-color: #444a4b;
 }
-.wears li:last-child {
+.wears div:last-child {
   border-bottom: none;
 }
 .upper {
@@ -92,4 +93,12 @@
 .description {
   padding: 1rem;
   color: rgba(255, 255, 255, 0.5);
+}
+.upper img {
+  max-width: 100%;
+  height: auto;
+}
+.wear {
+  display: flex;
+  justify-content: space-between;
 }

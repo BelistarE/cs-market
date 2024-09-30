@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import styles from "./css_modules/market.module.css";
+import Dropdown from "./Dropdown";
 
 function Market() {
   const { categoryName } = useParams(); // Get the category name from the URL
@@ -11,7 +12,8 @@ function Market() {
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState({});
   const navigate = useNavigate();
-  
+  const [sortedItems, setSortedItems] = useState(filteredItems);
+  const [resetDropdown, setResetDropdown] = useState(false);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -75,7 +77,14 @@ function Market() {
     });
 
     setFilteredItems(filtered);
+    setSortedItems(filtered);
   }, [items, categoryName]);
+  useEffect(() => {
+    // Reset the dropdown when categoryName or subCategoryName changes
+    setResetDropdown(true);
+    // Reset the flag after a short delay to allow the Dropdown component to reset
+    setTimeout(() => setResetDropdown(false), 0);
+  }, [categoryName]);
 
   if (loading) {
     return <p>Loading items...</p>;
@@ -88,9 +97,52 @@ function Market() {
     setImageLoading((prev) => ({ ...prev, [id]: false }));
   };
   const handleItemClick = (item) => {
-    navigate(`/category/${item.category.name.toLowerCase()}/${item.weapon.name.toLowerCase().replace(/\s/g, "")}/${item.pattern.id}`, { state: { item, prices: prices[item.name] } });
+    navigate(
+      `/category/${item.category.name.toLowerCase()}/${item.weapon.name.toLowerCase().replace(/\s/g, "")}/${item.pattern.id}`,
+      { state: { item, prices: prices[item.name] } }
+    );
   };
-  
+  const rarityRank = {
+    rarity_common_weapon: 1, // Light blue
+    rarity_uncommon_weapon: 2, // Blue
+    rarity_rare_weapon: 3, // Darker blue
+    rarity_mythical_weapon: 4, // Purple
+    rarity_legendary_weapon: 5, // Pink
+    rarity_ancient_weapon: 6, // Red
+    rarity_contraband_weapon: 7, // Orange (rare, removed skins)
+    rarity_ancient: 8, // Gold (Knives and Gloves)
+  };
+  const handleSort = (option) => {
+    let sortedArray = [...filteredItems];
+
+    if (option === "Price: lowest to highest") {
+      sortedArray.sort((a, b) => {
+        const priceA = prices[a.name]?.min || Infinity; // Use Infinity if price is not available
+        const priceB = prices[b.name]?.min || Infinity;
+        return priceA - priceB;
+      });
+    } else if (option === "Price: highest to lowest") {
+      sortedArray.sort((a, b) => {
+        const priceA = prices[a.name]?.min || 0; // Use 0 if price is not available
+        const priceB = prices[b.name]?.min || 0;
+        return priceB - priceA;
+      });
+    } else if (option === "Rarity: lowest to highest") {
+      sortedArray.sort((a, b) => {
+        const rarityA = rarityRank[a.rarity.id] || 0;
+        const rarityB = rarityRank[b.rarity.id] || 0;
+        return rarityA - rarityB;
+      });
+    } else if (option === "Rarity: highest to lowest") {
+      sortedArray.sort((a, b) => {
+        const rarityA = rarityRank[a.rarity.id] || 0;
+        const rarityB = rarityRank[b.rarity.id] || 0;
+        return rarityB - rarityA;
+      });
+    }
+
+    setSortedItems(sortedArray);
+  };
 
   return (
     <div>
@@ -119,54 +171,62 @@ function Market() {
           </svg>
           <p className={styles.subcat}> all {categoryName}</p>
         </div>
+        <div className={styles.right}>
+          <Dropdown onSelect={handleSort} reset={resetDropdown} />
 
-        <p>{filteredItems.length} items</p>
+          <p>{sortedItems.length} items</p>
+        </div>
       </div>
 
       <div className={`${styles.grid}`}>
-        {filteredItems.map((item) => {
+        {sortedItems.map((item) => {
           // Normalize the itemName from the items API by removing wear-related text
           const itemName = item.name;
 
-            return (
-              <div key={item.id} className={`${styles.gridItem}`}  onClick={() => handleItemClick(item)}>
-                {imageLoading[item.id] !== false && (
-                  <div className={styles.placeholder}></div>
-                )}
+          return (
+            <div
+              key={item.id}
+              className={`${styles.gridItem}`}
+              onClick={() => handleItemClick(item)}
+            >
+              {imageLoading[item.id] !== false && (
+                <div className={styles.placeholder}></div>
+              )}
 
-                <img
-                  src={item.image}
-                  alt={itemName}
-                  className={styles.itemImage}
-                  onLoad={() => handleImageLoad(item.id)}
-                />
+              <img
+                src={item.image}
+                alt={itemName}
+                className={styles.itemImage}
+                onLoad={() => handleImageLoad(item.id)}
+              />
 
-                <div className={styles.prices}>
-                  <p>
-                    $
-                    {prices[itemName]?.min
-                      ? prices[itemName].min >= 1000
-                        ? prices[itemName].min.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        : prices[itemName].min.toFixed(2)
-                      : "N/A"}
-                    {" - "}
-                    $
-                    {prices[itemName]?.max
-                      ? prices[itemName].max >= 1000
-                        ? prices[itemName].max.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        : prices[itemName].max.toFixed(2)
-                      : "N/A"}
-                  </p>
-                </div>
-
-                <p style={{ color: item.rarity.color }}>
-                  {itemName.split(" | ")[0]}
-                </p>
+              <div className={styles.prices}>
                 <p>
-                  {itemName.split(" | ")[1]}
+                  $
+                  {prices[itemName]?.min
+                    ? prices[itemName].min >= 1000
+                      ? prices[itemName].min
+                          .toFixed(0)
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : prices[itemName].min.toFixed(2)
+                    : "N/A"}
+                  {" - "}$
+                  {prices[itemName]?.max
+                    ? prices[itemName].max >= 1000
+                      ? prices[itemName].max
+                          .toFixed(0)
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : prices[itemName].max.toFixed(2)
+                    : "N/A"}
                 </p>
               </div>
-            );
+
+              <p style={{ color: item.rarity.color }}>
+                {itemName.split(" | ")[0]}
+              </p>
+              <p>{itemName.split(" | ")[1]}</p>
+            </div>
+          );
         })}
       </div>
     </div>

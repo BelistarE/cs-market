@@ -88,3 +88,7 @@
 .right {
   display: flex;
 }
+
+.filter {
+  margin-right: 2rem;
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styles from "./css_modules/itempage.module.css";
 const arrow = () => (
@@ -27,6 +28,84 @@ const ItemPage = () => {
   const { itemType, weaponType, skinName } = useParams();
   const location = useLocation();
   const { item } = location.state || {};
+  const [pricesData, setPricesData] = useState([]); // Initialize as an array
+
+  useEffect(() => {
+    // Fetch USD data
+    fetch("/USD.json")
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data.items)) {
+          setPricesData(data.items);
+        } else {
+          console.error("USD data is not an array.");
+        }
+      })
+      .catch((error) => console.error("Error fetching USD data:", error));
+
+    console.log(pricesData);
+
+    // Fetch skins data that is associated with item.name
+    fetch("https://bymykel.github.io/CSGO-API/api/en/skins_not_grouped.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredItems = data.filter((skin) => {
+          const cleanSkinName = skin.name.replace(/\s*\(.*?\)\s*/g, "");
+          return cleanSkinName === item.name;
+        });
+        console.log(filteredItems);
+      })
+      .catch((error) => console.error("Error fetching skins data:", error));
+  }, [item?.name]); //  avoid issues if item is undefined
+
+  const renderConditions = () => {
+    if (!item || pricesData.length === 0) {
+      return <p>Loading...</p>;
+    }
+
+    const getPrice = (itemName, wearName) => {
+      const marketHashName = `${itemName} (${wearName})`;
+
+      if (!Array.isArray(pricesData)) {
+        return "Price data is unavailable";
+      }
+
+      const priceObject = pricesData.find(
+        (price) => price.market_hash_name === marketHashName
+      );
+      return priceObject ? priceObject.price : "not available";
+    };
+
+    if (item.stattrak) {
+      return (
+        <div className={styles.wears}>
+          {item.wears.map((wear) => (
+            <div className={styles.wear} key={wear.id}>
+              <p>{wear.name}</p>
+              <p>{`$${getPrice(item.name, wear.name)}`}</p>
+            </div>
+          ))}
+          {item.wears.map((wear) => (
+            <div className={styles.wear} key={wear.id}>
+              <p>StatTrak™ {wear.name}</p>
+              <p>{`$${getPrice(`StatTrak™ ${item.name}`, wear.name)}`}</p>
+            </div>
+          ))}
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.wears}>
+          {item.wears.map((wear) => (
+            <div className={styles.wear} key={wear.id}>
+              <p>{wear.name}</p>
+              <p>{`$${getPrice(item.name, wear.name)}`}</p>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
 
   if (!item) {
     return <p>Item not found.</p>;
@@ -72,13 +151,7 @@ const ItemPage = () => {
         <p>{item.weapon.name}</p>
         <p className={styles.pattern}>{item.pattern.name}</p>
         <button className={styles.buy}>Add to cart</button>
-        <div className={styles.conditions}>
-          <ul className={styles.wears}>
-            {item.wears.map((wear) => (
-              <li key={wear.id}>{wear.name}</li>
-            ))}
-          </ul>
-        </div>
+        <div className={styles.conditions}>{renderConditions()}</div>
       </div>
     </div>
   );

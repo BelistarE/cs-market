@@ -10,6 +10,7 @@ import Market from "./components/Market";
 import Agents from "./components/Agents";
 import Stickers from "./components/Stickers";
 import ItemPage from "./components/ItemPage";
+import SubMarket from "./components/SubMarket";
 import "./App.css";
 
 function Category() {
@@ -23,6 +24,11 @@ function Category() {
   );
 }
 
+function SubCategory() {
+  const { subCategoryName } = useParams();
+  return <SubMarket subCategoryName={subCategoryName} />;
+}
+
 function App() {
   return (
     <div className="common">
@@ -32,7 +38,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/category/:categoryName" element={<Category />} />
-            <Route path="/category/:itemType/:weaponType/:skinName" element={<ItemPage />} />
+            <Route
+              path="/category/:categoryName/:subCategoryName"
+              element={<SubCategory />}
+            />
+            <Route
+              path="/category/:itemType/:weaponType/:skinName"
+              element={<ItemPage />}
+            />
           </Routes>
         </div>
       </Router>
