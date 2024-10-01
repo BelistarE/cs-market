@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import FloatBar from "./FloatBar";
 import styles from "./css_modules/itempage.module.css";
+import { useCart } from "./context/CartContext";
 const arrow = () => (
   <svg
     fill="#ffffff"
@@ -31,6 +32,9 @@ const ItemPage = () => {
   const { item } = location.state || {};
   const [pricesData, setPricesData] = useState([]);
   const [selectedWear, setSelectedWear] = useState(null);
+  const [itemImage, setItemImage] = useState(item.image);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     // Fetch USD data
@@ -54,10 +58,43 @@ const ItemPage = () => {
           return cleanSkinName === item.name;
         });
         console.log(filteredItems);
+        setFilteredItems(filteredItems);
       })
       .catch((error) => console.error("Error fetching skins data:", error));
   }, [item?.name]); //  avoid issues if item is undefined
+  //handle add to cart
+  const handleAddToCart = () => {
+    const getPrice = (itemName, wearName) => {
+      const marketHashName = `${itemName} (${wearName})`;
 
+      if (!Array.isArray(pricesData)) {
+        return "Price data is unavailable";
+      }
+
+      const priceObject = pricesData.find(
+        (price) => price.market_hash_name === marketHashName
+      );
+      return priceObject
+        ? `$${parseFloat(priceObject.price).toFixed(2)}`
+        : "not in stock";
+    };
+    if (selectedWear) {
+      const { wear, isStatTrak } = selectedWear;
+      const itemName = isStatTrak ? `StatTrak™ ${item.name}` : item.name;
+      const price = getPrice(itemName, wear.name);
+      const image = item.image; // Assuming item has an image property
+
+      const cartItem = {
+        name: itemName,
+        wear: wear.name,
+        price,
+        image,
+      };
+
+      addToCart(cartItem);
+      console.log("Cart item added:", cartItem);
+    }
+  };
   const renderConditions = () => {
     if (!item || pricesData.length === 0) {
       return <p>Loading...</p>;
@@ -79,7 +116,11 @@ const ItemPage = () => {
     };
     //selected pricing
     const handleWearClick = (wear, isStatTrak = false) => {
-      setSelectedWear({ wear, isStatTrak }); // Update state with selected wear
+      setSelectedWear({ wear, isStatTrak });
+      const myItem = filteredItems.filter(
+        (filteredItem) => filteredItem.wear.name === wear.name
+      );
+      setItemImage(myItem[0].image);
     };
 
     const renderSelectedPrice = () => {
@@ -97,7 +138,9 @@ const ItemPage = () => {
         <>
           <p className={styles.type}></p>
           <p className={styles.price}>{renderSelectedPrice()}</p>
-          <button className={styles.buy}>Add to cart</button>
+          <button className={styles.buy} onClick={handleAddToCart}>
+            Add to cart
+          </button>
           <div className={styles.conditions}>
             <div className={styles.wears}>
               {item.wears.map((wear) => (
@@ -110,7 +153,7 @@ const ItemPage = () => {
                       ? styles.selected
                       : ""
                   }`}
-                  onClick={() => handleWearClick(wear, false)} // Handle click for non-StatTrak items
+                  onClick={() => handleWearClick(wear, false)}
                 >
                   <p>{wear.name}</p>
                   <p>{getPrice(item.name, wear.name)}</p>
@@ -126,7 +169,7 @@ const ItemPage = () => {
                       ? styles.selected
                       : ""
                   }`}
-                  onClick={() => handleWearClick(wear, true)} // Handle click for StatTrak items
+                  onClick={() => handleWearClick(wear, true)}
                 >
                   <div className={styles.statrakcontainer}>
                     <p className={styles.stattrak}>StatTrak™</p>
@@ -144,7 +187,9 @@ const ItemPage = () => {
       return (
         <>
           <p className={styles.price}>{renderSelectedPrice()}</p>
-          <button className={styles.buy}>Add to cart</button>
+          <button className={styles.buy} onClick={handleAddToCart}>
+            Add to cart
+          </button>
           <div className={styles.conditions}>
             <div className={styles.wears}>
               {item.wears.map((wear) => (
@@ -185,7 +230,7 @@ const ItemPage = () => {
             {arrow()}
             <p className={styles.last}>{item.pattern.name}</p>
           </div>
-          <img src={item.image} alt={item.name} className={styles.image} />
+          <img src={itemImage} alt={item.name} className={styles.image} />
           <FloatBar minFloat={item.min_float} maxFloat={item.max_float} />
           <div
             style={{

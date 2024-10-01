@@ -4,6 +4,7 @@ import {
   Route,
   useParams,
 } from "react-router-dom";
+import { CartProvider } from "./components/context/CartContext";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Market from "./components/Market";
@@ -11,6 +12,7 @@ import Agents from "./components/Agents";
 import Stickers from "./components/Stickers";
 import ItemPage from "./components/ItemPage";
 import SubMarket from "./components/SubMarket";
+import CartPage from "./components/CartPage";
 import "./App.css";
 
 function Category() {
@@ -31,25 +33,28 @@ function SubCategory() {
 
 function App() {
   return (
-    <div className="common">
-      <Router>
-        <Header />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/category/:categoryName" element={<Category />} />
-            <Route
-              path="/category/:categoryName/:subCategoryName"
-              element={<SubCategory />}
-            />
-            <Route
-              path="/category/:itemType/:weaponType/:skinName"
-              element={<ItemPage />}
-            />
-          </Routes>
-        </div>
-      </Router>
-    </div>
+    <CartProvider>
+      <div className="common">
+        <Router>
+          <Header />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/category/:categoryName" element={<Category />} />
+              <Route
+                path="/category/:categoryName/:subCategoryName"
+                element={<SubCategory />}
+              />
+              <Route
+                path="/category/:itemType/:weaponType/:skinName"
+                element={<ItemPage />}
+              />
+              <Route path="/cart" element={<CartPage />} />
+            </Routes>
+          </div>
+        </Router>
+      </div>
+    </CartProvider>
   );
 }
 
