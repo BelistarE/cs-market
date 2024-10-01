@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import FloatBar from "./FloatBar";
+import FloatBar from "./Floatbar.jsx";
 import styles from "./css_modules/itempage.module.css";
 import { useCart } from "./context/CartContext";
 const arrow = () => (
@@ -57,7 +57,6 @@ const ItemPage = () => {
           const cleanSkinName = skin.name.replace(/\s*\(.*?\)\s*/g, "");
           return cleanSkinName === item.name;
         });
-        console.log(filteredItems);
         setFilteredItems(filteredItems);
       })
       .catch((error) => console.error("Error fetching skins data:", error));
@@ -92,7 +91,6 @@ const ItemPage = () => {
       };
 
       addToCart(cartItem);
-      console.log("Cart item added:", cartItem);
     }
   };
   const renderConditions = () => {
