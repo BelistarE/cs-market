@@ -128,7 +128,11 @@ const ItemPage = () => {
                   }`}
                   onClick={() => handleWearClick(wear, true)} // Handle click for StatTrak items
                 >
-                  <p>StatTrak™ {wear.name}</p>
+                  <div className={styles.statrakcontainer}>
+                    <p className={styles.stattrak}>StatTrak™</p>
+                    <p> {wear.name}</p>
+                  </div>
+
                   <p>{getPrice(`StatTrak™ ${item.name}`, wear.name)}</p>
                 </div>
               ))}

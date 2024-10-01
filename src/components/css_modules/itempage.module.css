@@ -96,6 +96,7 @@
 }
 .description {
   color: rgba(255, 255, 255, 0.5);
+  padding-bottom: 2rem;
 }
 .upper img {
   max-width: 100%;
@@ -163,4 +164,15 @@ ul {
 .conk {
   font-size: 1.5rem;
   font-weight: 600;
+  padding-bottom: 1rem;
+}
+.stattrak {
+  color: #ff8c11;
+  padding-right: 0.3rem !important;
+}
+.statrakcontainer {
+  display: flex;
+  border: none;
+  padding: 0px !important;
+  border-bottom: 1px solid #7d8a8e00 !important;
 }

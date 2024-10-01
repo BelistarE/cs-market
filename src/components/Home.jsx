@@ -1,13 +1,25 @@
 import React, { useRef } from "react";
+import { useState } from "react";
 import Slider from "react-slick";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import one from "../assets/slideshow/1carousel.jpg";
 import two from "../assets/slideshow/2carousel.webp";
 import seven from "../assets/slideshow/7carousel.webp";
-import styles from "./css_modules/home.module.css"; 
+import six from "../assets/slideshow/6carousel.webp";
+import styles from "./css_modules/home.module.css";
 
-const images = [one, two, seven];
+const images = [one, seven, six];
+const captions = [
+  "From Battle Scarred to Factory New,",
+  "Create your dream inventory",
+  "View current market prices",
+];
+const subCaptions = [
+  "we've got them all!",
+  "*not all items available",
+  "*not in real time (rip)",
+];
 
 const PrevArrow = ({ onClick }) => (
   <div
@@ -29,7 +41,7 @@ const NextArrow = ({ onClick }) => (
 
 const Home = () => {
   const slider = useRef(null);
-
+  const [currentSlide, setCurrentSlide] = useState(0);
   const settings = {
     dots: true,
     infinite: true,
@@ -37,9 +49,12 @@ const Home = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4000,
     pauseOnHover: false,
     arrows: false,
+    beforeChange: (oldIndex, newIndex) => {
+      setCurrentSlide(newIndex); // Update current slide index
+    },
   };
 
   return (
@@ -47,12 +62,21 @@ const Home = () => {
       <div className={styles.carouselContainer}>
         <Slider ref={slider} {...settings}>
           {images.map((image, index) => (
-            <div key={index}>
+            <div key={index} className={styles.carouselSlide}>
               <img
                 src={image}
                 alt={`Slide ${index}`}
                 className={styles.carouselImage}
               />
+              {/* Apply animation only to the current slide */}
+              <div
+                className={`${styles.carouselText} ${
+                  currentSlide === index ? styles.animatedText : "" // Apply animation class if current slide index matches the index of the slide
+                }`}
+              >
+                <h2>{captions[index]}</h2>
+                <h3>{subCaptions[index]}</h3>
+              </div>
             </div>
           ))}
         </Slider>

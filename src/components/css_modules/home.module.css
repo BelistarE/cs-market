@@ -78,3 +78,35 @@
 .footercontact {
   width: 250px;
 }
+.carouselText {
+  color: white;
+  position: absolute;
+  font-size: 2rem;
+  padding: 2rem;
+  font-weight: bold;
+  box-sizing: border-box;
+  opacity: 0; /* Initially hidden */
+  white-space: normal;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Dark text shadow */
+}
+
+/* Class for animated text on current slide */
+.animatedText {
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: slideText 0.8s forwards; /* Animation duration */
+  transform: translateX(0); /* Final position */
+}
+
+@keyframes slideText {
+  0% {
+    opacity: 0;
+    transform: translateX(200%); /* Start off-screen to the right */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /* End position */
+  }
+}
