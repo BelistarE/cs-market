@@ -1,0 +1,97 @@
+.floatBarContainer {
+  position: relative;
+  width: 90%;
+  transform: translateX(15px);
+  margin: 20px 0;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.floatBar {
+  position: relative;
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(to right, red, yellow, green);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.arrow {
+  position: absolute;
+  top: -10px;
+  transform: translateX(-50%);
+  color: #2c2f30; /* Color for the arrows */
+}
+
+.floatValues {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.floatValues span {
+  position: absolute;
+
+  transform: translateX(-50%);
+  color: white;
+  font-size: 12px;
+}
+
+.tooltipContainer {
+  position: relative;
+  transform: translate(10px, -10px);
+  display: inline-block; /* Inline-block allows the tooltip to behave like text while keeping block-level behavior */
+  margin-left: 10px; /* Adjust this value to position it relative to the float bar */
+}
+
+.tooltipIcon {
+  border: 2px solid white;
+  color: rgb(255, 255, 255);
+  border-radius: 100%;
+  padding: 5px 8px;
+  font-size: 9px;
+
+  cursor: pointer; /* Changes the cursor to a pointer when hovering over the icon */
+}
+
+.tooltipText {
+  visibility: hidden;
+  width: 150px; /* Adjust width as needed */
+  background-color: white;
+  color: #2c2f30;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+
+  position: absolute;
+  left: 105%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -5px;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #2c2f30 transparent transparent;
+  }
+
+  /* Add shadow for better visibility */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1; /* Make sure tooltip stays above other content */
+}
+
+.tooltipContainer:hover .tooltipText {
+  visibility: visible; /* Tooltip becomes visible on hover */
+}
+
+.wearinfo {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

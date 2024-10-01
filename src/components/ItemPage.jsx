@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import FloatBar from "./FloatBar";
 import styles from "./css_modules/itempage.module.css";
 const arrow = () => (
   <svg
@@ -28,7 +29,8 @@ const ItemPage = () => {
   const { itemType, weaponType, skinName } = useParams();
   const location = useLocation();
   const { item } = location.state || {};
-  const [pricesData, setPricesData] = useState([]); // Initialize as an array
+  const [pricesData, setPricesData] = useState([]);
+  const [selectedWear, setSelectedWear] = useState(null);
 
   useEffect(() => {
     // Fetch USD data
@@ -42,8 +44,6 @@ const ItemPage = () => {
         }
       })
       .catch((error) => console.error("Error fetching USD data:", error));
-
-    console.log(pricesData);
 
     // Fetch skins data that is associated with item.name
     fetch("https://bymykel.github.io/CSGO-API/api/en/skins_not_grouped.json")
@@ -73,36 +73,95 @@ const ItemPage = () => {
       const priceObject = pricesData.find(
         (price) => price.market_hash_name === marketHashName
       );
-      return priceObject ? priceObject.price : "not available";
+      return priceObject
+        ? `$${parseFloat(priceObject.price).toFixed(2)}`
+        : "not in stock";
+    };
+    //selected pricing
+    const handleWearClick = (wear, isStatTrak = false) => {
+      setSelectedWear({ wear, isStatTrak }); // Update state with selected wear
     };
 
+    const renderSelectedPrice = () => {
+      if (!selectedWear) return "Select a condition";
+
+      const wearName = selectedWear.wear.name;
+      const itemName = selectedWear.isStatTrak
+        ? `StatTrak™ ${item.name}`
+        : item.name;
+
+      return getPrice(itemName, wearName);
+    };
     if (item.stattrak) {
       return (
-        <div className={styles.wears}>
-          {item.wears.map((wear) => (
-            <div className={styles.wear} key={wear.id}>
-              <p>{wear.name}</p>
-              <p>{`$${getPrice(item.name, wear.name)}`}</p>
+        <>
+          <p className={styles.type}></p>
+          <p className={styles.price}>{renderSelectedPrice()}</p>
+          <button className={styles.buy}>Add to cart</button>
+          <div className={styles.conditions}>
+            <div className={styles.wears}>
+              {item.wears.map((wear) => (
+                <div
+                  key={wear.id}
+                  className={`${styles.wear} ${
+                    selectedWear &&
+                    selectedWear.wear.id === wear.id &&
+                    !selectedWear.isStatTrak
+                      ? styles.selected
+                      : ""
+                  }`}
+                  onClick={() => handleWearClick(wear, false)} // Handle click for non-StatTrak items
+                >
+                  <p>{wear.name}</p>
+                  <p>{getPrice(item.name, wear.name)}</p>
+                </div>
+              ))}
+              {item.wears.map((wear) => (
+                <div
+                  key={wear.id}
+                  className={`${styles.wear} ${
+                    selectedWear &&
+                    selectedWear.wear.id === wear.id &&
+                    selectedWear.isStatTrak
+                      ? styles.selected
+                      : ""
+                  }`}
+                  onClick={() => handleWearClick(wear, true)} // Handle click for StatTrak items
+                >
+                  <p>StatTrak™ {wear.name}</p>
+                  <p>{getPrice(`StatTrak™ ${item.name}`, wear.name)}</p>
+                </div>
+              ))}
             </div>
-          ))}
-          {item.wears.map((wear) => (
-            <div className={styles.wear} key={wear.id}>
-              <p>StatTrak™ {wear.name}</p>
-              <p>{`$${getPrice(`StatTrak™ ${item.name}`, wear.name)}`}</p>
-            </div>
-          ))}
-        </div>
+          </div>
+        </>
       );
     } else {
       return (
-        <div className={styles.wears}>
-          {item.wears.map((wear) => (
-            <div className={styles.wear} key={wear.id}>
-              <p>{wear.name}</p>
-              <p>{`$${getPrice(item.name, wear.name)}`}</p>
+        <>
+          <p className={styles.price}>{renderSelectedPrice()}</p>
+          <button className={styles.buy}>Add to cart</button>
+          <div className={styles.conditions}>
+            <div className={styles.wears}>
+              {item.wears.map((wear) => (
+                <div
+                  key={wear.id}
+                  className={`${styles.wear} ${
+                    selectedWear &&
+                    selectedWear.wear.id === wear.id &&
+                    !selectedWear.isStatTrak
+                      ? styles.selected
+                      : ""
+                  }`}
+                  onClick={() => handleWearClick(wear, false)} // Handle click for non-StatTrak items
+                >
+                  <p>{wear.name}</p>
+                  <p>{getPrice(item.name, wear.name)}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        </>
       );
     }
   };
@@ -123,6 +182,7 @@ const ItemPage = () => {
             <p className={styles.last}>{item.pattern.name}</p>
           </div>
           <img src={item.image} alt={item.name} className={styles.image} />
+          <FloatBar minFloat={item.min_float} maxFloat={item.max_float} />
           <div
             style={{
               backgroundColor: `${item.rarity.color}`,
@@ -145,13 +205,44 @@ const ItemPage = () => {
                 .join("<br>"),
             }}
           ></p>
+          <div className={styles.crates}>
+            {item.crates.length > 0 && <p className={styles.conk}>Crates:</p>}
+            <ul className={styles.cratesGrid}>
+              {item.crates.map((crate) => (
+                <li key={crate.id} className={styles.crateItem}>
+                  <img
+                    src={crate.image}
+                    alt={crate.name}
+                    className={styles.crateImage}
+                  />
+                  {crate.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className={styles.collections}>
+            {item.collections.length > 0 && (
+              <p className={styles.conk}>Collections:</p>
+            )}
+            <ul className={styles.collectionsGrid}>
+              {item.collections.map((collection) => (
+                <li key={collection.id}>
+                  <img
+                    src={collection.image}
+                    alt={collection.name}
+                    className={styles.crateImage}
+                  />
+                  {collection.name}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div className={styles.right}>
-        <p>{item.weapon.name}</p>
+        <p className={styles.name}>{item.weapon.name}</p>
         <p className={styles.pattern}>{item.pattern.name}</p>
-        <button className={styles.buy}>Add to cart</button>
-        <div className={styles.conditions}>{renderConditions()}</div>
+        <div className={styles.pricing}>{renderConditions()}</div>
       </div>
     </div>
   );

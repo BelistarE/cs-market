@@ -150,8 +150,8 @@ function SubMarket() {
       });
     } else if (option === "Price: highest to lowest") {
       sortedArray.sort((a, b) => {
-        const priceA = prices[a.name]?.max || 0; // Use 0 if price is not available
-        const priceB = prices[b.name]?.max || 0;
+        const priceA = prices[a.name]?.min || 0; // Use 0 if price is not available
+        const priceB = prices[b.name]?.min || 0;
         return priceB - priceA;
       });
     } else if (option === "Rarity: lowest to highest") {

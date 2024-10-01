@@ -5,7 +5,8 @@
   margin-bottom: 2rem;
 }
 .pattern {
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .left {
@@ -13,13 +14,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
+  width: 60%;
 }
 .right {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  flex: 1;
+  width: 40%;
 }
 .nav {
   display: flex;
@@ -66,6 +67,9 @@
   outline: inherit;
   border-radius: 5px;
   padding: 1.5rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  width: 100%;
 }
 .buy:hover {
   background-color: #477f9b;
@@ -91,7 +95,6 @@
   box-sizing: border-box;
 }
 .description {
-  padding: 1rem;
   color: rgba(255, 255, 255, 0.5);
 }
 .upper img {
@@ -101,4 +104,63 @@
 .wear {
   display: flex;
   justify-content: space-between;
+}
+.price {
+  font-weight: 600;
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+.wear p {
+  white-space: nowrap;
+  padding-right: 1rem;
+}
+.cratesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  color: rgba(255, 255, 255, 0.491);
+  margin-bottom: 2rem;
+}
+.cratesGrid > *:first-child {
+  justify-self: start;
+}
+.cratesGrid img {
+  width: 200px;
+  height: auto;
+}
+.collectionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  color: rgba(255, 255, 255, 0.491);
+  margin-bottom: 2rem;
+  padding-top: 2rem;
+}
+.collectionsGrid > *:first-child {
+  justify-self: start;
+}
+.collectionsGrid li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lower {
+  padding: 2rem;
+}
+
+.crateItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.conk {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
