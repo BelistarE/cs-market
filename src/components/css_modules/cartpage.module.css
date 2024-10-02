@@ -1,0 +1,75 @@
+.title {
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+}
+.cartItem {
+  background-color: #242728;
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  border-bottom: 10px solid #1d2021;
+}
+.containers {
+  display: flex;
+}
+
+.containers > div {
+  background-color: #242728;
+}
+.uppersum {
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+.cart {
+  margin-right: 2rem;
+  width: 100%;
+}
+.cartItem img {
+  width: 100px;
+}
+.summary {
+  height: 150px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mid {
+  width: 100%;
+  padding-left: 1rem;
+}
+.prem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-weight: bold;
+  font-size: large;
+}
+.remove {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: large;
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  outline: none;
+}
+.payment {
+  background-color: #6abde7;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: medium;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+.payment:hover {
+  background-color: #477f9b;
+  color: rgba(255, 255, 255, 0.626);
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import FloatBar from "./Floatbar.jsx";
 import styles from "./css_modules/itempage.module.css";
 import { useCart } from "./context/CartContext";
@@ -35,6 +35,7 @@ const ItemPage = () => {
   const [itemImage, setItemImage] = useState(item.image);
   const [filteredItems, setFilteredItems] = useState([]);
   const { addToCart } = useCart();
+  const [showGoToCart, setShowGoToCart] = useState(false);
 
   useEffect(() => {
     // Fetch USD data
@@ -65,7 +66,6 @@ const ItemPage = () => {
   const handleAddToCart = () => {
     const getPrice = (itemName, wearName) => {
       const marketHashName = `${itemName} (${wearName})`;
-
       if (!Array.isArray(pricesData)) {
         return "Price data is unavailable";
       }
@@ -81,19 +81,23 @@ const ItemPage = () => {
       const { wear, isStatTrak } = selectedWear;
       const itemName = isStatTrak ? `StatTrak™ ${item.name}` : item.name;
       const price = getPrice(itemName, wear.name);
-      const image = item.image; // Assuming item has an image property
+      const image = item.image;
+      const team = item.team.id;
 
       const cartItem = {
         name: itemName,
         wear: wear.name,
         price,
         image,
+        team,
       };
 
       addToCart(cartItem);
+      setShowGoToCart(true);
     }
   };
   const renderConditions = () => {
+    console.log(showGoToCart);
     if (!item || pricesData.length === 0) {
       return <p>Loading...</p>;
     }
@@ -136,9 +140,21 @@ const ItemPage = () => {
         <>
           <p className={styles.type}></p>
           <p className={styles.price}>{renderSelectedPrice()}</p>
-          <button className={styles.buy} onClick={handleAddToCart}>
-            Add to cart
-          </button>
+          <div className={styles.buttonContainer}>
+            <button
+              className={`${styles.buy} ${showGoToCart ? styles.buyWithCart : ""}`}
+              onClick={handleAddToCart}
+            >
+              Add to cart
+            </button>
+
+            <Link
+              to="/cart"
+              className={`${styles.hidden} ${showGoToCart ? styles.show : ""}`}
+            >
+              Go to Cart
+            </Link>
+          </div>
           <div className={styles.conditions}>
             <div className={styles.wears}>
               {item.wears.map((wear) => (
@@ -185,9 +201,21 @@ const ItemPage = () => {
       return (
         <>
           <p className={styles.price}>{renderSelectedPrice()}</p>
-          <button className={styles.buy} onClick={handleAddToCart}>
-            Add to cart
-          </button>
+          <div className={styles.buttonContainer}>
+            <button
+              className={`${styles.buy} ${showGoToCart ? styles.buyWithCart : ""}`}
+              onClick={handleAddToCart}
+            >
+              Add to cart
+            </button>
+
+            <Link
+              to="/cart"
+              className={`${styles.hidden} ${showGoToCart ? styles.show : ""}`}
+            >
+              Go to Cart
+            </Link>
+          </div>
           <div className={styles.conditions}>
             <div className={styles.wears}>
               {item.wears.map((wear) => (

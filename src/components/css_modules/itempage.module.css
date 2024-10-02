@@ -55,25 +55,7 @@
   border: 1px solid #7d8a8e;
   border-radius: 5px;
 }
-.buy {
-  background-color: #6abde7;
-  border: none;
-  color: inherit;
-  font: inherit;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  outline: inherit;
-  border-radius: 5px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  width: 100%;
-}
-.buy:hover {
-  background-color: #477f9b;
-}
+
 .wears div {
   padding: 1rem;
   border-bottom: 1px solid #7d8a8e;
@@ -175,4 +157,73 @@ ul {
   border: none;
   padding: 0px !important;
   border-bottom: 1px solid #7d8a8e00 !important;
+}
+.buttonContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  box-sizing: border-box;
+}
+.buy:hover {
+  background-color: #477f9b;
+}
+.buy {
+  border: none;
+  color: inherit;
+  font: inherit;
+  background-color: #6abde7;
+  border-radius: 5px;
+  padding: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  outline: inherit;
+  flex: 1;
+  transition: flex 0.5s ease;
+  width: 100%;
+  flex: 1;
+}
+.hidden {
+  display: none;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-decoration: none;
+  transition: width 1s ease;
+  text-transform: uppercase;
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.buttonContainer .show {
+  padding: 1.2rem;
+  width: 50%;
+  background-color: #ff9800;
+  transition: width 1s ease;
+  transition: flex 1s ease;
+  flex: 1;
+  color: white;
+  padding: 1.2rem;
+  font-weight: bold;
+}
+
+.buttonContainer .show:hover {
+  background-color: #c17900;
+}
+.buyWithCart {
+  right: 50%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
