@@ -51,7 +51,7 @@ const ItemPage = () => {
       .catch((error) => console.error("Error fetching USD data:", error));
 
     // Fetch skins data that is associated with item.name
-    fetch("https://bymykel.github.io/CSGO-API/api/en/skins_not_grouped.json")
+    fetch("https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json")
       .then((response) => response.json())
       .then((data) => {
         const filteredItems = data.filter((skin) => {

@@ -45,7 +45,7 @@ function SubMarket() {
 
         // Fetch both APIs
         const [itemsResponse, pricesResponse] = await Promise.all([
-          fetch("https://bymykel.github.io/CSGO-API/api/en/skins.json"),
+          fetch("https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json"),
           fetch("/USD.json"),
         ]);
 

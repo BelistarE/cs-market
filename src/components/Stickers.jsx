@@ -11,7 +11,7 @@ const Stickers = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://bymykel.github.io/CSGO-API/api/en/stickers.json"
+          "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/stickers.json"
         );
         const data = await response.json();
         setStickers(data);

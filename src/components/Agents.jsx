@@ -13,7 +13,7 @@ function Agents() {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://bymykel.github.io/CSGO-API/api/en/agents.json"
+          "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/agents.json"
         );
         const data = await response.json();
         setAgents(data);
